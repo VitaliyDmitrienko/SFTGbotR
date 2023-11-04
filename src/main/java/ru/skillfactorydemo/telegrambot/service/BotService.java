@@ -53,14 +53,18 @@ public class BotService extends TelegramLongPollingBot {
             response.setChatId(String.valueOf(chatId));
             if (CURRENT_RATES.equalsIgnoreCase(message.getText())) {
                 for (ValuteCursOnDate valuteCursOnDate : centralRussianBankService.getCurrenciesFromCbr()) {
-                    response.setText(StringUtils.defaultIfBlank(response.getText(), "") + valuteCursOnDate.getName() + " - " + valuteCursOnDate.getCourse() + "\n");
+                    response.setText(StringUtils.defaultIfBlank(response.getText(), "")
+                            + valuteCursOnDate.getName() + " (" + valuteCursOnDate.getChCode() + ") nominal: "
+                            + valuteCursOnDate.getNominal() + " - "
+                            + valuteCursOnDate.getCourse() + "\n");
                 }
             } else if (ADD_INCOME.equalsIgnoreCase(message.getText())) {
                 response.setText("Отправьте мне сумму полученного дохода");
             } else if (ADD_SPEND.equalsIgnoreCase(message.getText())) {
                 response.setText("Отправьте мне сумму расходов");
             } else {
-                response.setText(financeService.addFinanceOperation(getPreviousCommand(message.getChatId()), message.getText(), message.getChatId()));
+                response.setText(financeService.addFinanceOperation(getPreviousCommand(message.getChatId()),
+                        message.getText(), message.getChatId()));
             }
 
             putPreviousCommand(message.getChatId(), message.getText());
