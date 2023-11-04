@@ -13,7 +13,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.skillfactorydemo.telegrambot.dto.ValuteCursOnDate;
 import ru.skillfactorydemo.telegrambot.entity.ActiveChat;
 import ru.skillfactorydemo.telegrambot.repository.ActiveChatRepository;
-import ru.skillfactorydemo.telegrambot.repository.FinanceService;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -74,10 +73,8 @@ public class BotService extends TelegramLongPollingBot {
                 activeChat.setChatId(chatId);
                 activeChatRepository.save(activeChat);
             }
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Возникла неизвестная проблема, сообщите пожалуйста администратору", e);
         }
     }
 
@@ -89,7 +86,7 @@ public class BotService extends TelegramLongPollingBot {
             try {
                 execute(sendMessage);
             } catch (TelegramApiException e) {
-                e.printStackTrace();
+                log.error("Не удалось отправить сообщение", e);
             }
         }
     }
@@ -109,7 +106,8 @@ public class BotService extends TelegramLongPollingBot {
                 .get(previousCommands.get(chatId).size() - 1);
     }
 
-    //Данный метод будет вызван сразу после того, как данный бин будет создан - это обеспечено аннотацией Spring PostConstruct
+    //Данный метод будет вызван сразу после того,
+    // как данный бин будет создан - это обеспечено аннотацией Spring PostConstruct
     @PostConstruct
     public void start() {
         log.info("username: {}, token: {}", name, apiKey);
@@ -120,6 +118,7 @@ public class BotService extends TelegramLongPollingBot {
     public String getBotUsername() {
         return name;
     }
+
     //Данный метод возвращает API ключ для взаимодействия с Telegram
     @Override
     public String getBotToken() {

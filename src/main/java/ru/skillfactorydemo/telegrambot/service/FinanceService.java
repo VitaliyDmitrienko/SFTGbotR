@@ -1,9 +1,11 @@
-package ru.skillfactorydemo.telegrambot.repository;
+package ru.skillfactorydemo.telegrambot.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.skillfactorydemo.telegrambot.entity.Income;
 import ru.skillfactorydemo.telegrambot.entity.Spend;
+import ru.skillfactorydemo.telegrambot.repository.IncomeRepository;
+import ru.skillfactorydemo.telegrambot.repository.SpendRepository;
 
 import java.math.BigDecimal;
 
