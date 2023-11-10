@@ -18,8 +18,10 @@ class IncomeRepositoryTest {
     @Test
     public void testRepo() {
         //noinspection StatementWithEmptyBody
-        for (int i = 0; i < 10; i++, incomeRepository.save(new Income()));
-        final List<Income> found = incomeRepository.findAll();
+        List<Income> found = incomeRepository.findAll();
+        int count = found.size();
+        for (int i = 0; i < (10-count); i++, incomeRepository.save(new Income()));
+        found = incomeRepository.findAll();
         assertEquals(10, found.size());
     }
 }
